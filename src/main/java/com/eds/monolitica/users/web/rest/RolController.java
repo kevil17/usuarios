@@ -63,6 +63,6 @@ public class RolController {
     @DeleteMapping("/{rolId}")
     public ResponseEntity<Void> delete(@PathVariable final Integer rolId) {
         rolService.delete(rolId);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().build();
     }
 }

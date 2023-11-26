@@ -1,6 +1,8 @@
 package com.eds.monolitica.users.domain.entities;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.util.Date;
@@ -8,6 +10,8 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "user_detail")
+@SQLDelete(sql = "UPDATE user_detail SET deleted = true WHERE id=?")
+@Where(clause = "deleted = false")
 public class UserDetail {
     @Id
     @SequenceGenerator(name = "detail_sequence", allocationSize = 1)
@@ -23,7 +27,8 @@ public class UserDetail {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User users;
-
+    @Column(columnDefinition = "BOOLEAN NOT NULL DEFAULT '0'")
+    private boolean deleted;
     public UserDetail() {
     }
 
@@ -87,4 +92,11 @@ public class UserDetail {
         this.users = user;
     }
 
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
 }

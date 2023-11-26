@@ -12,4 +12,5 @@ public interface IUserService {
     Optional<UserDTO> getUserById(Long id);
     void delete(Long id);
 
+    UserDTO update(UserDTO userDTO);
 }

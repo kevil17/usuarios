@@ -1,6 +1,8 @@
 package com.eds.monolitica.users.domain.entities;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.util.Date;
@@ -8,6 +10,8 @@ import java.util.List;
 
 @Entity
 @Table(name = "users")
+@SQLDelete(sql = "UPDATE users SET deleted = true WHERE id=?")
+@Where(clause = "deleted = false")
 public class User {
     @Id
     @SequenceGenerator(name = "user_sequence", allocationSize = 1)
@@ -25,7 +29,8 @@ public class User {
 
     @OneToMany(mappedBy = "users", cascade = CascadeType.REMOVE)
     private List<UserRol> userRolList;
-
+    @Column(columnDefinition = "BOOLEAN NOT NULL DEFAULT '0'")
+    private boolean deleted;
     public User(String userName, String password, String email, Date createdAt) {
         this.userName = userName;
         this.password = password;
@@ -101,5 +106,13 @@ public class User {
 
     public void setUserRolList(List<UserRol> userRolList) {
         this.userRolList = userRolList;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 }

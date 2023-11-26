@@ -5,6 +5,7 @@ create table users (
                          password varchar(150) not null,
                          email varchar(150) not null,
                          creation_date timestamp without time zone,
+                         deleted boolean NOT NULL DEFAULT false,
                          primary key (id)
 );
 
@@ -15,6 +16,7 @@ create sequence user_sequence as integer increment 1;
 create table rol (
                         id integer not null,
                         name varchar(100) not null,
+                        deleted boolean NOT NULL DEFAULT false,
                         primary key (id)
 );
 create sequence rol_sequence as integer increment 1;
@@ -26,6 +28,7 @@ create table user_rol (
                             created_at timestamp not null,
                             user_id bigint,
                             rol_id integer,
+                            deleted boolean NOT NULL DEFAULT false,
                             primary key (id)
 );
 create sequence user_rol_sequence as integer increment 1;
@@ -44,6 +47,7 @@ create table user_detail (
                                  age integer not null,
                                  birth_day Date,
                                  user_id bigint,
+                                 deleted boolean NOT NULL DEFAULT false,
                                  primary key (id)
 );
 create sequence detail_sequence as integer increment 1;

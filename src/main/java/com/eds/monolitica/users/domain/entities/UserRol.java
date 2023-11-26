@@ -1,17 +1,22 @@
 package com.eds.monolitica.users.domain.entities;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.util.Date;
 
 @Entity
 @Table(name = "user_rol")
+@SQLDelete(sql = "UPDATE user_rol SET deleted = true WHERE id=?")
+@Where(clause = "deleted = false")
 public class UserRol {
     @Id
     @SequenceGenerator(name = "user_rol_sequence", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_rol_sequence")
     private Integer id;
+
     private boolean active;
     @CreatedDate
     @Column(updatable = false, columnDefinition = "timestamp without time zone DEFAULT CURRENT_TIMESTAMP")
@@ -19,6 +24,8 @@ public class UserRol {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "rol_id")
     private Rol rol;
+    @Column(columnDefinition = "BOOLEAN NOT NULL DEFAULT '0'")
+    private boolean deleted;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User users;
@@ -76,5 +83,13 @@ public class UserRol {
 
     public void setUsers(User users) {
         this.users = users;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 }

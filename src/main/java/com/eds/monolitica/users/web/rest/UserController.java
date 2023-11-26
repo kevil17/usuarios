@@ -49,14 +49,14 @@ public class UserController {
 
         return ResponseEntity
                 .ok()
-                .body(this.userService.save(userDTO));
+                .body(this.userService.update(userDTO));
 
     }
 
     @DeleteMapping("/{userId}")
     public ResponseEntity<Void> delete(@PathVariable final Long userId) {
         userService.delete(userId);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().build();
     }
 
 }

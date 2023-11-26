@@ -51,6 +51,6 @@ public class UserRolController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable final Integer id) {
         userRolService.delete(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().build();
     }
 }
